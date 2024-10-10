@@ -12,7 +12,7 @@ class LambdaTestUser(HttpUser):
     @task
     def lambda_request(self):
         start_time = time.time()  # Record the start time
-        response = self.client.post("/default/iris_function", json=self.payload)  # Send request to the Lambda
+        response = self.client.post("/default/<your_lambda_function>", json=self.payload)  # Send request to the Lambda
         end_time = time.time()  # Record the end time
         response_time_ms = 1000 * (end_time - start_time)  # Calculate the response time in milliseconds
         
