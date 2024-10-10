@@ -78,8 +78,6 @@ The lambda_handler function performs the following tasks:
 - Return the predictions as a JSON response.
 </details>
 
-</br>
-
 <details>
    <summary>Testing the function</code></summary>
 
@@ -167,7 +165,7 @@ In your local machine:
 
 ### 4. ECR Repository Setup
 
-In your local machine:
+Before starting, log in to the AWS Management Console. Then, on your local computer, proceed with the following steps.
 
 - Create an ECR repository:
   ```bash
