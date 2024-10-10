@@ -194,14 +194,14 @@ You will receive 1 point for including the required figures in your `.ipynb`: a 
 
 ## Submission Requirements
 
-Please submit your assignment via GitHub Classroom. Commit and push the following files to your GitHub Classroom repository:
+Please submit your assignment via BlackBoard in one `.zip` file, including the following files:
 
 - `README.md` (with all questions answered) (3 points)
 - `lambda_function.py` (your implementation of the Lambda function) (1 point)
   - Extracts the `values`
   - Calls the predict function
   - Return the prediction result
-- A screenshot of the CloudWatch log event for one of your Lambda function invocations. (0.5 point)
+- Provide the CloudWatch log event for one of your Lambda function invocations. (0.5 point)
 - A screenshot of a successful request and response using `curl` or `Invoke-WebRequest`, showing the correct prediction output. (0.5 point)
 - `performance_analysis.ipynb`, including:
   - Figure of the line graph, cold start histogram, and warm request histogram. (0.5 point)
