@@ -24,7 +24,7 @@ We will use the well-known IRIS dataset to keep the machine learning model simpl
 
 2. **Environment Setup**
 
-   - Install Docker and AWS CLI.
+   - Set up your local development environment.
 
 3. **Docker Image Creation**
 
@@ -62,7 +62,45 @@ The lambda_handler function performs the following tasks:
 
 ### 2. Environment Setup
 
-- Ensure Docker and AWS CLI are installed.
+Set up your local development environment on your machine:
+
+- Install Docker Desktop for your operating system: https://www.docker.com/
+- Install the AWS CLI: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+- Ensure you have Python 3 and pip installed.
+- (Optional but Recommended) Install Git: https://git-scm.com/downloads
+- Configure your AWS credentials:
+
+  <details>
+  <summary>AWS credentials configuration</summary>
+
+  #### To configure your AWS credentials, follow these steps:
+
+  1. **Access your AWS credentials**: On the Vocareum main page, navigate to "Account details" then "AWS CLI." Copy the provided Access Key ID, Secret Access Key, and Session Token.
+
+  2. **Create or open the credentials file**: Locate your AWS credentials file:
+
+     - **macOS**: `~/.aws/credentials`
+     - **Windows**: `C:\Users\%UserProfile%\.aws\credentials`
+
+     If the file doesn't exist, create it using a plain text editor.
+
+  3. **Add your credentials**: Paste the Access Key ID, Secret Access Key, and Session Token into the file, using the following format. Add the `region` line (you can use any region, e.g., `us-east-1`):
+
+     ```ini
+     [default]
+     region=us-east-1  # Add this line.
+     aws_access_key_id=YOUR_ACCESS_KEY_ID
+     aws_secret_access_key=YOUR_SECRET_ACCESS_KEY
+     aws_session_token=YOUR_SESSION_TOKEN
+     ```
+
+     Replace `YOUR_ACCESS_KEY_ID`, `YOUR_SECRET_ACCESS_KEY`, and `YOUR_SESSION_TOKEN` with the values you copied from Vocareum.
+
+  4. **Save the file**: Ensure the file is saved, and only you have access to it.
+
+  5. **Important Security Note**: Never share your AWS credentials. Treat them like passwords. Do not commit this file to version control (e.g., Git). Add `.aws/credentials` to your `.gitignore` file. Consider using a more secure method of managing credentials in production environments.
+
+  </details>
 
 ### 3. Docker Image Creation
 
