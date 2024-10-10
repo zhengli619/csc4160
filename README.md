@@ -60,6 +60,49 @@ The lambda_handler function performs the following tasks:
 - Calls the predict function: It invokes the predict function, passing the extracted values to generate predictions based on the machine learning model.
 - Return the prediction result: Finally, it formats the prediction results as a JSON response and returns them to the caller.
 
+<details>
+  <summary>Steps to Implement <code>lambda_handler</code></summary>
+
+#### Extract Input from Event:
+
+- You will receive the input features inside the `body` of the event.
+- Parse this `body` as JSON and retrieve the `values`.
+- You could also handle any possible errors, like missing input or invalid JSON.
+
+#### Call the `predict` Function:
+
+- After extracting the `values`, pass them to the `predict` function, which will return a list of predictions.
+
+#### Format and Return the Response:
+
+- Return the predictions as a JSON response.
+</details>
+
+</br>
+
+<details>
+   <summary>Testing the function</code></summary>
+
+#### Test with Mock Input:
+
+You can simulate the input to the `lambda_handler` via the AWS Lambda console. For example, an event might look like this:
+
+```bash
+{
+  "body": "{\"values\": [[5.1, 3.5, 1.4, 0.2]]}"
+}
+```
+
+#### Simulate predict:
+
+If you want to test without uploading the model, you can temporarily simulate the predict function to return a mock result.
+
+#### Test in AWS Lambda:
+
+Use the AWS Lambda Console to test your function with a sample event, or you can set up API Gateway and send a request from there.
+
+</details>
+
 ### 2. Environment Setup
 
 Set up your local development environment on your machine:
@@ -104,6 +147,8 @@ Set up your local development environment on your machine:
 
 ### 3. Docker Image Creation
 
+In your local machine:
+
 - Use the provided Dockerfile to create a Docker image:
 
   ```bash
@@ -121,6 +166,8 @@ Set up your local development environment on your machine:
 - Verify if the image is functioning properly by executing `test.py`.
 
 ### 4. ECR Repository Setup
+
+In your local machine:
 
 - Create an ECR repository:
   ```bash
@@ -142,14 +189,14 @@ Set up your local development environment on your machine:
   docker push <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/iris-registry:latest
   ```
 
-### 5. Lambda Function Creation in AWS Console
+### 5. Lambda Function Creation
 
-- Create the Lambda function using the existing container image you have built and select `LabRole` as the execution role.
+- In AWS console, create the Lambda function using the existing container image you have built and select `LabRole` as the execution role.
 
 ### 6. API Gateway Configuration
 
-- Create an REST API for your Lambda function using API Gateway.
-- Test your API using `curl` (Linux):
+- Create an REST API for your Lambda function using API Gateway via AWS console.
+- Test your API in your local machine using `curl` (Linux):
 
   ```bash
   curl --header "Content-Type: application/json" --request POST --data "{\"values\": [[<value1>, <value2>, <value3>, <value4>]]}" https://<your_api_id>.execute-api.<region>.amazonaws.com/default/<your_lambda_function>
@@ -168,7 +215,7 @@ Set up your local development environment on your machine:
 
 #### Load Testing
 
-Use the provided Locust load test script to evaluate the performance of your deployed API.
+In your local machine, use the provided Locust load test script to evaluate the performance of your deployed API.
 
 - Install Locust
 
