@@ -24,7 +24,7 @@ We will use the well-known IRIS dataset to keep the machine learning model simpl
 
 2. **Environment Setup**
 
-   - Install Docker and AWS CLI.
+   - Set up your local development environment.
 
 3. **Docker Image Creation**
 
@@ -60,13 +60,94 @@ The lambda_handler function performs the following tasks:
 - Calls the predict function: It invokes the predict function, passing the extracted values to generate predictions based on the machine learning model.
 - Return the prediction result: Finally, it formats the prediction results as a JSON response and returns them to the caller.
 
+<details>
+  <summary>Steps to Implement <code>lambda_handler</code></summary>
+
+#### Extract Input from Event:
+
+- You will receive the input features inside the `body` of the event.
+- Parse this `body` as JSON and retrieve the `values`.
+- You could also handle any possible errors, like missing input or invalid JSON.
+
+#### Call the `predict` Function:
+
+- After extracting the `values`, pass them to the `predict` function, which will return a list of predictions.
+
+#### Format and Return the Response:
+
+- Return the predictions as a JSON response.
+</details>
+
+<details>
+   <summary>Testing the function</code></summary>
+
+#### Test with Mock Input:
+
+You can simulate the input to the `lambda_handler` via the AWS Lambda console. For example, an event might look like this:
+
+```bash
+{
+  "body": "{\"values\": [[5.1, 3.5, 1.4, 0.2]]}"
+}
+```
+
+#### Simulate predict:
+
+If you want to test without uploading the model, you can temporarily simulate the predict function to return a mock result.
+
+#### Test in AWS Lambda:
+
+Use the AWS Lambda Console to test your function with a sample event, or you can set up API Gateway and send a request from there.
+
+</details>
+
 ### 2. Environment Setup
 
-- Ensure Docker and AWS CLI are installed.
+Set up your local development environment on your machine:
+
+- Install Docker Desktop for your operating system: https://www.docker.com/
+- Install the AWS CLI: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+- Ensure you have Python 3 and pip installed.
+- (Optional but Recommended) Install Git: https://git-scm.com/downloads
+- Configure your AWS credentials:
+
+  <details>
+  <summary>AWS credentials configuration</summary>
+
+  #### To configure your AWS credentials, follow these steps:
+
+  1. **Access your AWS credentials**: On the Vocareum main page, navigate to "Account details" then "AWS CLI." Copy the provided Access Key ID, Secret Access Key, and Session Token.
+
+  2. **Create or open the credentials file**: Locate your AWS credentials file:
+
+     - **macOS**: `~/.aws/credentials`
+     - **Windows**: `C:\Users\%UserProfile%\.aws\credentials`
+
+     If the file doesn't exist, create it using a plain text editor.
+
+  3. **Add your credentials**: Paste the Access Key ID, Secret Access Key, and Session Token into the file, using the following format. Add the `region` line (you can use any region, e.g., `us-east-1`):
+
+     ```ini
+     [default]
+     region=us-east-1  # Add this line.
+     aws_access_key_id=YOUR_ACCESS_KEY_ID
+     aws_secret_access_key=YOUR_SECRET_ACCESS_KEY
+     aws_session_token=YOUR_SESSION_TOKEN
+     ```
+
+     Replace `YOUR_ACCESS_KEY_ID`, `YOUR_SECRET_ACCESS_KEY`, and `YOUR_SESSION_TOKEN` with the values you copied from Vocareum.
+
+  4. **Save the file**: Ensure the file is saved, and only you have access to it.
+
+  5. **Important Security Note**: Never share your AWS credentials. Treat them like passwords. Do not commit this file to version control (e.g., Git). Add `.aws/credentials` to your `.gitignore` file. Consider using a more secure method of managing credentials in production environments.
+
+  </details>
 
 ### 3. Docker Image Creation
 
-Before building the Docker image, ensure the Docker daemon is running (start Docker Desktop on Windows/macOS or use sudo systemctl start docker on Linux).
+Before building the Docker image, ensure the Docker daemon is running (start Docker Desktop on Windows/macOS or use `sudo systemctl start docker` on Linux).
+
+In your local machine:
 
 - Use the provided Dockerfile to create a Docker image:
 
@@ -86,7 +167,7 @@ Before building the Docker image, ensure the Docker daemon is running (start Doc
 
 ### 4. ECR Repository Setup
 
-Begin by launching your AWS Academy Learner Lab and ensuring your AWS credentials are correctly configured.
+Begin by launching your AWS Academy Learner Lab and ensuring your AWS credentials are correctly configured. Then, on your local computer, proceed with the following steps.
 
 - Create an ECR repository:
   ```bash
@@ -96,7 +177,6 @@ Begin by launching your AWS Academy Learner Lab and ensuring your AWS credential
   ```bash
   aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com
   ```
-  Your AWS Account ID is available by selecting "AWS Details" within the "Launch AWS Academy Learner Lab" page.
 - Get image id:
   ```bash
   docker image ls
@@ -109,14 +189,14 @@ Begin by launching your AWS Academy Learner Lab and ensuring your AWS credential
   docker push <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/iris-registry:latest
   ```
 
-### 5. Lambda Function Creation in AWS Console
+### 5. Lambda Function Creation
 
-- Create the Lambda function using the existing container image you have built and select `LabRole` as the execution role.
+- In AWS console, create the Lambda function using the existing container image you have built and select `LabRole` as the execution role.
 
 ### 6. API Gateway Configuration
 
-- Create an REST API for your Lambda function using API Gateway.
-- Test your API using `curl` (Linux):
+- Create an REST API for your Lambda function using API Gateway via AWS console.
+- Test your API in your local machine using `curl` (Linux):
 
   ```bash
   curl --header "Content-Type: application/json" --request POST --data "{\"values\": [[<value1>, <value2>, <value3>, <value4>]]}" https://<your_api_id>.execute-api.<region>.amazonaws.com/default/<your_lambda_function>
@@ -135,7 +215,7 @@ Begin by launching your AWS Academy Learner Lab and ensuring your AWS credential
 
 #### Load Testing
 
-Use the provided Locust load test script to evaluate the performance of your deployed API.
+In your local machine, use the provided Locust load test script to evaluate the performance of your deployed API.
 
 - Install Locust
 
@@ -143,6 +223,7 @@ Use the provided Locust load test script to evaluate the performance of your dep
 pip install locust
 ```
 
+- Navigate to the directory containing `locustfile.py`.
 - Run the Locust test using:
 
 ```bash
@@ -152,7 +233,7 @@ locust -f locustfile.py --host https://<your_api_gateway_id>.execute-api.us-east
 For Windows users, set the PATH for `locust`, or directly use the `locust.exe`, specifying its path, e.g.:
 
 ```bash
-c:\users\user\appdata\roaming\python\python39\scripts\locust.exe
+c:\users\user\appdata\roaming\python\python39\scripts\locust.exe -f locustfile.py --host https://<your_api_gateway_id>.execute-api.us-east-1.amazonaws.com --users 10 --spawn-rate 5 --run-time 60s --csv "locust_logs/test" --csv-full-history --html "locust_logs/test_locust_report.html" --logfile "locust_logs/test_locust_logs.txt" --headless
 ```
 
 #### Analysis
