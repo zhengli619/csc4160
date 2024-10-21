@@ -12,4 +12,4 @@ def lambda_handler(event, context):
     # TODO: Implement your own lambda_handler logic here
     # You will need to extract the 'values' from the event and call the predict function.
     
-    pass  # Replace with your implementation
+    pass  # Replace with your implementations
