@@ -1,0 +1,2 @@
+Method,Name,Error,Occurrences
+POST,/default/%3Cyour_lambda_function%3E,HTTPError('403 Client Error: Forbidden for url: /default/%3Cyour_lambda_function%3E'),138
