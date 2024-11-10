@@ -1,0 +1,4 @@
+
+ssh -i "C:\csc4160\aws_ec2_pem\assignment4.pem" ubuntu@ec2-18-204-43-92.compute-1.amazonaws.com
+scp -i "C:\csc4160\aws_ec2_pem\assignment4.pem" "C:\csc4160\assignment4\web-BerkStan.gz" ubuntu@3.236.127.165:/home/ubuntu/
+scp -i "C:\csc4160\aws_ec2_pem\assignment4.pem" "C:\csc4160\assignment4\wordcount.txt" ubuntu@ec2-18-213-115-227.compute-1.amazonaws.com:/home/ubuntu/

@@ -1,0 +1,22 @@
+
+hdfs dfs -ls /
+hdfs dfs -cat /[实际文件名] | less
+按q停止
+
+
+
+
+
+
+hdfs dfs -rm -r hdfs://172.31.10.231:9000/output_wordcount
+~/spark-3.3.1-bin-hadoop3/bin/spark-submit ~/wordcount.py hdfs://172.31.10.231:9000/wordcount.txt hdfs://172.31.10.231:9000/output_wordcount
+ec2-3-219-240-166.compute-1.amazonaws.com:8080
+ec2-3-219-240-166.compute-1.amazonaws.com:4040
+
+hdfs dfsadmin -safemode leave
+hdfs dfs -rm -r hdfs://172.31.10.231:9000/pagerank_output
+rm -rf $SPARK_HOME/work/*
+/home/ubuntu/spark-3.3.1-bin-hadoop3/sbin/start-all.sh
+~/spark-3.3.1-bin-hadoop3/bin/spark-submit ~/pagerank.py hdfs://172.31.10.231:9000/web-BerkStan hdfs://172.31.10.231:9000/pagerank_output
+sudo sh -c "sync; echo 3 > /proc/sys/vm/drop_caches"
+kill -9 5022
